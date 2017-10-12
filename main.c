@@ -54,7 +54,7 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 	char line[100];
 	char *token = NULL;
 	int lineNumber = 0;
-	char* opcode;
+	int opcode;
 	int type; // 0 =R, 1= I, 2 = J, 3 = O
 	int r1, r2, r3;
 	uint32_t command = 0;
@@ -63,21 +63,21 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 		token = strtok(line," \t\n");
 	start:
 		if (strcmp(token,"add") == 0){ //add
-			opcode = "000";
+			opcode = 0;
 			type = 0;
 			
 			
 		} //add
 		
 		else if(strcmp(token,"nand") == 0) {
-			opcode = "001";
+			opcode = 1;
 			type = 0;
 	
 
 		}//nand
 		
 		else if(strcmp(token,"lw") == 0){//lw
-			opcode = "010";
+			opcode = 2;
 			type = 1;
 			printf("%s ",token);
 			//r1
@@ -119,14 +119,14 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 		}//lw
 			
 		else if(strcmp(token,"sw") == 0){ // sw
-			opcode = "011";
+			opcode = 3;
 			type = 1;
 			
 
 		}//sw
 			
 		else if(strcmp(token,"beq") == 0){// beq
-			opcode = "100";
+			opcode = 4;
 			type = 1;
 			printf("%s ", token);
 			//r1
@@ -168,19 +168,19 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 		}//beq
 			
 		else if(strcmp(token,"jalr") == 0){// jalr
-			opcode = "101";
+			opcode = 5;
 			type = 2;
 			token=strtok(NULL," \t\n");
 		}//jalr
 		
 		else if (strcmp(token,"halt") == 0){//halt
-			opcode = "110";
+			opcode = 6;
 			type = 3;
 			token=strtok(NULL," \t\n");
 		}//halt
 			
 		else if(strcmp(token,"noop") == 0){//noop
-			opcode = "111";
+			opcode = 7;
 			type = 3;
 			token=strtok(NULL," \t\n");
 		}//noop
