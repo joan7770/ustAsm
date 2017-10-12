@@ -1,0 +1,6 @@
+	lw	1	0	1
+	lw	2	0	2
+	nand	3	1	2
+	beq	0	0	jump
+noop
+jump	halt	

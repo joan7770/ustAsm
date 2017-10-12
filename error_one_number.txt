@@ -1,0 +1,5 @@
+	beq	1	5	yes
+	add	2	2	5
+	beq	0	0	after
+7es	add	2	3	4
+after	sw	6	0	2

@@ -1,0 +1,8 @@
+	lw	2	0	4	
+	add	3	5	-5
+	beq	0	3	loop
+loop	add	4	2	-2
+	sw	4	0	4
+	beq	0	0	after
+loop	sw	1	0	4
+after	halt

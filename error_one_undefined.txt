@@ -1,0 +1,8 @@
+	jalr	1	5
+	lw	2	0	3
+	add	3	3	2
+	sw	4	0	start
+	add	3	3	4
+	lw	5	0	4
+	noop
+	halt				

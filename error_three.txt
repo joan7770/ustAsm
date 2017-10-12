@@ -1,0 +1,8 @@
+	lw	2	0	4	
+	add	3	5	-5
+	beq	0	3	if
+else	add	4	2	-2
+	sw	4	0	327677
+	beq	0	0	after
+if	sw	1	0	4
+after	halt
