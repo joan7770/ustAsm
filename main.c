@@ -61,24 +61,12 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 	
 	while(fgets(line,sizeof line,code)!= NULL){
 		token = strtok(line," \t\n");
+		
 	start:
 		if (strcmp(token,"add") == 0){ //add
 			opcode = 0;
 			type = 0;
 			
-			
-		} //add
-		
-		else if(strcmp(token,"nand") == 0) {
-			opcode = 1;
-			type = 0;
-	
-
-		}//nand
-		
-		else if(strcmp(token,"lw") == 0){//lw
-			opcode = 2;
-			type = 1;
 			printf("%s ",token);
 			//r1
 			token=strtok(NULL," \t\n");
@@ -116,19 +104,144 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 				}
 			}
 			printf("%d %d %d\n", r1, r2, r3);
+			
+		} //add
+		
+		else if(strcmp(token,"nand") == 0) {
+			opcode = 1;
+			type = 0;
+	
+			printf("%s ",token);
+			//r1
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r1 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r1 = lineNumber - labeltable[i].location;
+					}
+				}
+			}
+			
+			//r2
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r2 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r2 = lineNumber - labeltable[i].location;
+					}
+				}
+			}
+			
+			//r3
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r3 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r3 = labeltable[i].location - (lineNumber + 1);
+					}
+				}
+			}
+			printf("%d %d %d\n", r1, r2, r3);
+		}//nand
+		
+		else if(strcmp(token,"lw") == 0){//lw
+			opcode = 2;
+			type = 1;
+			
+			printf("%s ",token);
+			//r1
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r1 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r1 = lineNumber - labeltable[i].location;
+					}
+				}
+			}
+			
+			//r2
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r2 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r2 = lineNumber - labeltable[i].location;
+					}
+				}
+			}
+			
+			//r3
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r3 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r3 = labeltable[i].location - (lineNumber + 1);
+					}
+				}
+			}
+			printf("%d %d %d\n", r1, r2, r3);
+			
 		}//lw
 			
 		else if(strcmp(token,"sw") == 0){ // sw
 			opcode = 3;
 			type = 1;
 			
-
+			printf("%s ",token);
+			//r1
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r1 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r1 = lineNumber - labeltable[i].location;
+					}
+				}
+			}
+			
+			//r2
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r2 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r2 = lineNumber - labeltable[i].location;
+					}
+				}
+			}
+			
+			//r3
+			token=strtok(NULL," \t\n");
+			if(isalpha(token[0]) == 0){
+				r3 = (int) strtol(token,NULL,10);
+			} else{
+				for (int i = 0; i < nooflabels + 1 && labeltable[i].label != NULL; i++) {
+					if (strcmp(token,labeltable[i].label) == 0) {
+						r3 = labeltable[i].location - (lineNumber + 1);
+					}
+				}
+			}
+			printf("%d %d %d\n", r1, r2, r3);
 		}//sw
 			
 		else if(strcmp(token,"beq") == 0){// beq
 			opcode = 4;
 			type = 1;
-			printf("%s ", token);
+			
+			printf("%s ",token);
 			//r1
 			token=strtok(NULL," \t\n");
 			if(isalpha(token[0]) == 0){
@@ -196,7 +309,7 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 					}
 				}
 			}
-			lineNumber++;
+
 			continue;
 		}
 		
@@ -204,6 +317,7 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 			token = strtok(NULL," \t\n");
 			goto start;
 		}
+		
 		/*
 		//Binary work
 		if (type == 0) { // R
@@ -221,6 +335,7 @@ void pass2(FILE *code, struct label labeltable[], int nooflabels){
 			
 		}
 		*/
+		
 		lineNumber++;
 	}
 }
