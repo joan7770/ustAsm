@@ -5,4 +5,4 @@
 	add	3	3	4
 	lw	5	0	4
 	noop
-	halt				
+	halt

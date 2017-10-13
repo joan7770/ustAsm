@@ -5,4 +5,3 @@
 	noop
 	lw	5	0	1
 	add	7	1	5
-	

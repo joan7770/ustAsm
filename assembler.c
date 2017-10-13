@@ -1,7 +1,7 @@
 //	main.c
 //  assembler
 //	Joan Marin-Romero
-//
+//	Nancy Yang
 //	CISC 340
 //	Project 1
 //	uint32_t output
@@ -29,6 +29,31 @@ int pass1(FILE *code, struct label labeltable[], int numOfLabels){
 		
 		if (strcmp(token,"add") != 0 && strcmp(token,"nand") != 0 && strcmp(token,"lw") != 0 && strcmp(token,"sw") != 0 && strcmp(token,"beq") != 0 && strcmp(token,"jalr") != 0&& strcmp(token,"halt") != 0 && strcmp(token,"noop") != 0 && strcmp(token,".fill") != 0) {
 			//  label encounter
+			
+			if (!isalpha(token[0])) {
+				printf("ERROR: Label starts with a number: %s\n", token);
+				exit(EXIT_FAILURE);
+			}
+			
+			for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
+				if (!strcmp(token,labeltable[i].label)) {
+					printf("ERROR: Duplicate label: %s\n", token);
+					exit(EXIT_FAILURE);
+				}
+			}
+			
+			if (strlen(token) > 6) {
+				printf("ERROR: label is too long: %s\n", token);
+				exit(EXIT_FAILURE);
+			}
+			
+			for (int i = 0; i < strlen(token); i++) {
+				if (!isalnum(token[i])) {
+					printf("ERROR: label has invalid characters: %s\n", token);
+					exit(EXIT_FAILURE);
+				}
+			}
+			
 			labeltable[numOfLabels].location = lineNumber;
 			op1 = (char*) malloc(sizeof(token));
 			strcpy(op1,token);
@@ -53,231 +78,362 @@ void pass2(FILE *code, struct label labeltable[], int numOfLabels, bool toFile, 
 		token = strtok(line," \t\n");
 		
 	start:
-		if (strcmp(token,"add") == 0){ //add
+		if (!strcmp(token,"add")){ //add
 			opcode = 0;
 			type = 0;
 			
 			//r1
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r1 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r1 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r2
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r2 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r2 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r3
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r3 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r3 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+					
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 		} //add
 		
-		else if(strcmp(token,"nand") == 0) {
+		else if(!strcmp(token,"nand")) {
 			opcode = 1;
 			type = 0;
+			
 			//r1
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r1 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r1 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r2
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r2 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r2 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r3
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r3 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r3 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+					
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 		}//nand
 		
-		else if(strcmp(token,"lw") == 0){//lw
+		else if(!strcmp(token,"lw")){//lw
 			opcode = 2;
 			type = 1;
 			
 			//r1
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r1 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r1 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r2
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r2 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r2 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r3
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r3 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r3 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+					
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 		}//lw
 			
-		else if(strcmp(token,"sw") == 0){ // sw
+		else if(!strcmp(token,"sw")){ // sw
 			opcode = 3;
 			type = 1;
 			
 			//r1
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r1 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r1 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r2
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r2 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r2 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r3
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r3 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r3 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+					
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 		}//sw
 			
-		else if(strcmp(token,"beq") == 0){// beq
+		else if(!strcmp(token,"beq")){// beq
 			opcode = 4;
 			type = 1;
 			
 			//r1
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r1 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r1 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r2
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r2 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r2 = labeltable[i].location - lineNumber;
+						rSet = true;
 					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 			
 			//r3
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				r3 = (int) strtol(token,NULL,10);
 			} else{
+				bool rSet = false;
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						r3 = labeltable[i].location - (lineNumber + 1);
+						rSet = true;
 					}
+					
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
 				}
 			}
 		}//beq
 			
-		else if(strcmp(token,"jalr") == 0){// jalr
+		else if(!strcmp(token,"jalr")){// jalr
 			opcode = 5;
 			type = 2;
+			
+			//r1
 			token=strtok(NULL," \t\n");
+			if(!isalpha(token[0])){
+				r1 = (int) strtol(token,NULL,10);
+			} else{
+				bool rSet = false;
+				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
+					if (!strcmp(token,labeltable[i].label)) {
+						r1 = labeltable[i].location - lineNumber;
+						rSet = true;
+					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
+				}
+			}
+			
+			//r2
+			token=strtok(NULL," \t\n");
+			if(!isalpha(token[0])){
+				r2 = (int) strtol(token,NULL,10);
+			} else{
+				bool rSet = false;
+				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
+					if (!strcmp(token,labeltable[i].label)) {
+						r2 = labeltable[i].location - lineNumber;
+						rSet = true;
+					}
+				}
+				if (!rSet) {
+					printf("ERROR: label not previously defined: %s\n", token);
+					exit(EXIT_FAILURE);
+				}
+			}
 		}//jalr
 		
-		else if (strcmp(token,"halt") == 0){//halt
+		else if (!strcmp(token,"halt")){//halt
 			opcode = 6;
 			type = 3;
 			token=strtok(NULL," \t\n");
 		}//halt
 			
-		else if(strcmp(token,"noop") == 0){//noop
+		else if(!strcmp(token,"noop")){//noop
 			opcode = 7;
 			type = 3;
 			token=strtok(NULL," \t\n");
 		}//noop
 		
-		else if (strcmp(token,".fill") == 0){ //.fill
+		else if (!strcmp(token,".fill")){ //.fill
 			token=strtok(NULL," \t\n");
-			if(isalpha(token[0]) == 0){
+			if(!isalpha(token[0])){
 				if (toFile) {
 					fprintf(machineCode,"%s\n", token);
 				}else{
@@ -285,7 +441,7 @@ void pass2(FILE *code, struct label labeltable[], int numOfLabels, bool toFile, 
 				}
 			} else{
 				for (int i = 0; i < numOfLabels && labeltable[i].label != NULL; i++) {
-					if (strcmp(token,labeltable[i].label) == 0) {
+					if (!strcmp(token,labeltable[i].label)) {
 						if (toFile) {
 							fprintf(machineCode,"%d\n", labeltable[i].location);
 						}else{
@@ -298,7 +454,14 @@ void pass2(FILE *code, struct label labeltable[], int numOfLabels, bool toFile, 
 		}
 		
 		else{ //label
+			char* temp = token;
 			token = strtok(NULL," \t\n");
+			
+			if (strcmp(token,"add") != 0 && strcmp(token,"nand") != 0 && strcmp(token,"lw") != 0 && strcmp(token,"sw") != 0 && strcmp(token,"beq") != 0 && strcmp(token,"jalr") != 0&& strcmp(token,"halt") != 0 && strcmp(token,"noop") != 0 && strcmp(token,".fill") != 0) {
+				printf("ERROR: invalid opcode: %s\n", temp);
+				exit(EXIT_FAILURE);
+			}
+			
 			goto start;
 		}
 		
@@ -309,6 +472,10 @@ void pass2(FILE *code, struct label labeltable[], int numOfLabels, bool toFile, 
 		}
 		
 		else if (type == 1){ // I
+			if (r3 < -32768 ||r3 > 32767) {
+				printf("ERROR: invalid offset value: %d\n", r3);
+				exit(EXIT_FAILURE);
+			}
 			command = opcode << 22 | r1 << 19 | r2 << 16 | (r3 & 0x0000FFFF);
 		}
 		

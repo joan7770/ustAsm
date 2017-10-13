@@ -6,7 +6,7 @@ all: assembler
 	$(CC) $(CFLAGS) $(INC) assembler.o -o assembler
 
 assembler:
-	$(CC) $(CFLAGS) $(INC) -c main.c -o assembler.o
+	$(CC) $(CFLAGS) $(INC) -c assembler.c -o assembler.o
 
 clean:
 	rm *.o *.out assembler
